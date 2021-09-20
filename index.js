@@ -42,7 +42,7 @@ client.on("interactionCreate", async (interaction) => {
   } catch (error) {
     console.error(error);
     await interaction.reply({
-      content: "Došlo je do greške prilikom pokretanja ove komande!",
+      content: "Error while executing this command!",
       ephemeral: true,
     });
   }
