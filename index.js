@@ -1,10 +1,18 @@
 const fs = require("fs");
 const { Client, Collection, Intents } = require("discord.js");
+const { Player } = require("discord-player");
 const { token } = require("./config.json");
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_VOICE_STATES,
+  ],
+});
 
 client.commands = new Collection();
+client.player = new Player(client);
 
 const commandFiles = fs
   .readdirSync("./commands")
@@ -31,7 +39,7 @@ for (const file of eventFiles) {
 }
 
 client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
+  if (!interaction.isCommand() || !interaction.guildId) return;
 
   const command = client.commands.get(interaction.commandName);
 
@@ -49,3 +57,7 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.login(token);
+
+module.exports = {
+  client,
+};
