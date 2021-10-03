@@ -12,7 +12,6 @@ module.exports = {
     ),
   async execute(interaction) {
     const { client } = require("..");
-    if (!client.application?.owner) await client.application?.fetch();
 
     client.player.on("trackStart", (queue, track) =>
       queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`)
