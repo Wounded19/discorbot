@@ -18,6 +18,22 @@ module.exports = {
 
     await interaction.deferReply();
 
+    if (!interaction.member.voice.channelId)
+      return await interaction.reply({
+        content: "You are not in a voice channel!",
+        ephemeral: true,
+      });
+
+    if (
+      interaction.guild.me.voice.channelId &&
+      interaction.member.voice.channelId !==
+        interaction.guild.me.voice.channelId
+    )
+      return await interaction.reply({
+        content: "You are not in my voice channel!",
+        ephemeral: true,
+      });
+
     const query = interaction.options.get("song").value;
 
     const searchResult = await client.player
@@ -28,8 +44,6 @@ module.exports = {
       .catch((error) => {
         console.log("Error occured:", error);
       });
-
-    console.log(searchResult);
 
     if (!searchResult || !searchResult.tracks.length)
       return void interaction.followUp({ content: "No results were found!" });
@@ -52,7 +66,7 @@ module.exports = {
       content: `🎶 | ${
         searchResult.playlist
           ? `Playlist started - ${searchResult.tracks[0].title}`
-          : `Now playing ${searchResult.tracks[0].title}`
+          : `Now playing ${searchResult.tracks[0].title} - ${searchResult.tracks[0].duration}`
       }`,
     });
 
