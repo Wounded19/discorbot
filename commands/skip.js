@@ -2,30 +2,30 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("bassboost")
-    .setDescription("Toggle bassboost filter"),
+    .setName("skip")
+    .setDescription("Skips the current song."),
 
   async execute(interaction) {
     const client = interaction.client;
+    if (!client.application?.owner) await client.application?.fetch();
 
     await interaction.deferReply();
 
     const queue = client.player.getQueue(interaction.guildId);
 
     if (!queue || !queue.playing)
-      return void interaction.reply({
+      return void interaction.followUp({
         content: "❌ | No music is being played!",
       });
 
-    await queue.setFilters({
-      bassboost: !queue.getFiltersEnabled().includes("bassboost"),
-      normalizer2: !queue.getFiltersEnabled().includes("bassboost"),
-    });
+    const currentTrack = queue.current;
+
+    const success = queue.skip();
 
     return void interaction.followUp({
-      content: `🎵 | Bassboost ${
-        queue.getFiltersEnabled().includes("bassboost") ? "Enabled" : "Disabled"
-      }!`,
+      content: success
+        ? `✅ | Skipped **${currentTrack}**!`
+        : "❌ | Something went wrong!",
     });
   },
 };

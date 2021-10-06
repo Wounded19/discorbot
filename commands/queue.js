@@ -5,7 +5,7 @@ module.exports = {
     .setName("queue")
     .setDescription("Shows the current queue"),
   async execute(interaction) {
-    const { client } = require("..");
+    const client = interaction.client;
     if (!client.application?.owner) await client.application?.fetch();
 
     await interaction.deferReply();
