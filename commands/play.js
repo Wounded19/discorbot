@@ -16,8 +16,6 @@ module.exports = {
 
     if (!client.application?.owner) await client.application?.fetch();
 
-    await interaction.deferReply();
-
     if (!interaction.member.voice.channelId)
       return await interaction.reply({
         content: "You are not in a voice channel!",
@@ -35,6 +33,8 @@ module.exports = {
       });
 
     const query = interaction.options.get("song").value;
+
+    await interaction.deferReply();
 
     const searchResult = await client.player
       .search(query, {
