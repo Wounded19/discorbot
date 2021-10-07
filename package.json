@@ -4,7 +4,7 @@
   "description": "Discord bot for friends and our own server",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "start": "node index.js",
     "dev": "nodemon",
     "deploy": "node deploy-commands.js",
     "lint": "eslint ."
