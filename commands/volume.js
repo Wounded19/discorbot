@@ -3,7 +3,13 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("volume")
-    .setDescription("Changes the volume of the current song."),
+    .setDescription("Changes the volume of the current song.")
+    .addStringOption((option) =>
+      option
+        .setName("amount")
+        .setDescription("The amount to change the volume by.")
+        .setRequired(true)
+    ),
 
   async execute(interaction) {
     const client = interaction.client;
