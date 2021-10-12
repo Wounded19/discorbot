@@ -65,8 +65,8 @@ module.exports = {
     await interaction.followUp({
       content: `🎶 | ${
         searchResult.playlist
-          ? `Playlist started - ${searchResult.tracks[0].title}`
-          : `Now playing ${searchResult.tracks[0].title} - ${searchResult.tracks[0].duration}`
+          ? `Playlist started - **${searchResult.tracks[0].title}**`
+          : `Now playing **${searchResult.tracks[0].title}** - ${searchResult.tracks[0].duration}`
       }`,
     });
 
